@@ -3,7 +3,7 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://mzeidan.com",
   name: "محمّد زيدان",
   description:
-    "مدوّنة شخصية لمشاركة أفكار وتأمّلات في الفلسفة واللغة والثقافة العربية.",
+    "مدوّنة محمّد زيدان — كتابات في الفلسفة واللغة والثقافة العربية. أفكار تشكّل طريقة تفكيرنا في العالم، بأسلوب يجمع بين العمق والوضوح.",
   author: {
     name: "محمّد زيدان",
     email: "iam.zdeveloper@gmail.com",

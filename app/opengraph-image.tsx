@@ -24,27 +24,58 @@ export default function OgImage() {
         }}
       >
         {/* Brand dot + name */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 32 }}>
-          <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#a07850" }} />
-          <span style={{ fontSize: 22, fontWeight: 700, color: "#5a4a3a", letterSpacing: "-0.5px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 40 }}>
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#a07850" }} />
+          <span style={{ fontSize: 20, fontWeight: 700, color: "#7a6550" }}>
             {siteConfig.name}
           </span>
         </div>
 
-        {/* Main heading */}
+        {/* Headline */}
         <h1
           style={{
-            fontSize: 64,
+            fontSize: 58,
             fontWeight: 800,
             color: "#2c2018",
-            lineHeight: 1.2,
-            margin: 0,
-            maxWidth: 800,
+            lineHeight: 1.25,
+            margin: "0 0 20px",
+            maxWidth: 860,
             textAlign: "right",
           }}
         >
-          {siteConfig.description}
+          كتابات في الفلسفة واللغة والثقافة العربية
         </h1>
+
+        {/* Tagline */}
+        <p
+          style={{
+            fontSize: 22,
+            color: "#7a6550",
+            margin: "0 0 40px",
+            maxWidth: 700,
+            textAlign: "right",
+            lineHeight: 1.5,
+          }}
+        >
+          أفكار تشكّل طريقة تفكيرنا في العالم، بأسلوب يجمع بين العمق والوضوح.
+        </p>
+
+        {/* CTA */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            background: "#a07850",
+            color: "#fff",
+            fontSize: 18,
+            fontWeight: 700,
+            padding: "12px 28px",
+            borderRadius: 999,
+          }}
+        >
+          اقرأ المقالات ←
+        </div>
 
         {/* Bottom bar */}
         <div

@@ -11,10 +11,12 @@ import { siteConfig } from "@/lib/site-config"
 import type { PostCard } from "@/types/sanity"
 
 export const metadata: Metadata = {
+  title: "محمّد زيدان — مدوّنة في الفلسفة واللغة والثقافة العربية",
   alternates: { canonical: siteConfig.url },
   openGraph: {
     type: "website",
     url: siteConfig.url,
+    title: "محمّد زيدان — مدوّنة في الفلسفة واللغة والثقافة العربية",
   },
 }
 
