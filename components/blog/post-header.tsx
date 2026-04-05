@@ -54,7 +54,7 @@ export function PostHeader({ post }: { post: Post }) {
             <div className="overflow-hidden rounded-3xl border border-border shadow-sm">
               <Image
                 src={imageUrl}
-                alt={post.featuredImage.alt}
+                alt={post.featuredImage.alt ?? ""}
                 width={1400}
                 height={900}
                 priority

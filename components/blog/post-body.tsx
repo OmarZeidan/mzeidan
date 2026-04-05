@@ -1,5 +1,6 @@
 import { PortableText, type PortableTextComponents } from "@portabletext/react"
 import Image from "next/image"
+import Link from "next/link"
 import { QuotesIcon } from "@phosphor-icons/react/dist/ssr"
 import { urlForImage } from "@/sanity/lib/image"
 import { PortableTextBlock } from "@/types/sanity"
@@ -37,16 +38,24 @@ const components: PortableTextComponents = {
   types: {
     image: ({ value }) => {
       if (!value?.asset) return null
-      const imageUrl = urlForImage(value).width(1400).fit("max").url()
+
+      const sizeMap: Record<string, { width: number; className: string }> = {
+        small:  { width: 384,  className: "max-w-sm mx-auto" },
+        medium: { width: 672,  className: "max-w-2xl mx-auto" },
+        large:  { width: 896,  className: "max-w-4xl mx-auto" },
+        full:   { width: 1400, className: "w-full" },
+      }
+      const { width, className: sizeClass } = sizeMap[value.size ?? "full"]
+      const imageUrl = urlForImage(value).width(width).fit("max").url()
       const lqip = value.asset.metadata?.lqip
 
       return (
-        <figure className="my-10 overflow-hidden rounded-2xl border border-border bg-card">
+        <figure className={`my-10 overflow-hidden rounded-2xl border border-border bg-card ${sizeClass}`}>
           <Image
             src={imageUrl}
             alt={value.alt ?? ""}
-            width={1400}
-            height={900}
+            width={width}
+            height={Math.round(width * (9 / 16))}
             className="h-auto w-full object-cover"
             placeholder={lqip ? "blur" : undefined}
             blurDataURL={lqip}
@@ -148,6 +157,17 @@ const components: PortableTextComponents = {
         >
           {children}
         </a>
+      )
+    },
+    internalLink: ({ value, children }) => {
+      if (!value?.slug) return <>{children}</>
+      return (
+        <Link
+          href={`/blog/${value.slug}`}
+          className="text-primary underline decoration-primary/50 underline-offset-4 transition-colors hover:decoration-primary"
+        >
+          {children}
+        </Link>
       )
     },
   },

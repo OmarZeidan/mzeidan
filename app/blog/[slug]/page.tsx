@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/layout/site-footer"
 import { PostHeader } from "@/components/blog/post-header"
 import { PostBody } from "@/components/blog/post-body"
 import { ShareButtons } from "@/components/blog/share-buttons"
+import { EditPostButton } from "@/components/blog/edit-post-button"
 import { TableOfContents } from "@/components/blog/table-of-contents"
 import { sanityFetch } from "@/sanity/lib/fetch"
 import { POST_BY_SLUG_QUERY, POST_SLUGS_QUERY } from "@/sanity/lib/queries"
@@ -16,6 +17,7 @@ import { urlForImage } from "@/sanity/lib/image"
 
 interface Props {
   params: Promise<{ slug: string }>
+  searchParams: Promise<{ admin?: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -70,8 +72,10 @@ export async function generateStaticParams() {
   return slugs.map(({ slug }) => ({ slug }))
 }
 
-export default async function PostPage({ params }: Props) {
+export default async function PostPage({ params, searchParams }: Props) {
   const { slug } = await params
+  const { admin } = await searchParams
+  const isAdmin = admin === "1" || process.env.NODE_ENV === "development"
 
   const post = await sanityFetch<Post | null>({
     query: POST_BY_SLUG_QUERY,
@@ -163,6 +167,7 @@ export default async function PostPage({ params }: Props) {
         </section>
       </main>
       <SiteFooter />
+      {isAdmin && <EditPostButton id={post._id} />}
     </>
   )
 }

@@ -32,6 +32,9 @@ export default async function HomePage() {
     }),
   ])
 
+  const displayFeatured = featuredPost ?? latestPosts[0] ?? null
+  const displayGrid = featuredPost ? latestPosts : latestPosts.slice(1)
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -63,15 +66,9 @@ export default async function HomePage() {
       <SkipLink />
       <SiteHeader />
       <main id="main-content" tabIndex={-1} className="outline-none">
-        {featuredPost ? (
-          <FeaturedPost post={featuredPost} />
-        ) : (
-          <p className="py-24 text-center text-muted-foreground">
-            لا توجد مقالات مميزة بعد.
-          </p>
-        )}
+        {displayFeatured && <FeaturedPost post={displayFeatured} showBadge={!!featuredPost} />}
         <div className="mx-auto max-w-7xl px-6 py-12 md:px-10">
-          <PostGrid posts={latestPosts} />
+          <PostGrid posts={displayGrid} />
         </div>
         <AuthorSection />
       </main>

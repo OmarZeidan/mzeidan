@@ -6,7 +6,6 @@ const POST_CARD_FIELDS = `
   "slug": slug.current,
   excerpt,
   publishedAt,
-  isFeatured,
   featuredImage {
     asset->{
       _id,
@@ -25,7 +24,7 @@ const POST_CARD_FIELDS = `
 `
 
 export const FEATURED_POST_QUERY = groq`
-  *[_type == "post" && isFeatured == true][0]{
+  *[_type == "siteSettings" && _id == "siteSettings"][0].featuredPost->{
     ${POST_CARD_FIELDS}
   }
 `
@@ -43,7 +42,15 @@ export const POST_SLUGS_QUERY = groq`
 export const POST_BY_SLUG_QUERY = groq`
   *[_type == "post" && slug.current == $slug][0]{
     ${POST_CARD_FIELDS},
-    body,
+    body[]{
+      ...,
+      markDefs[]{
+        ...,
+        _type == "internalLink" => {
+          "slug": reference->slug.current
+        }
+      }
+    },
     _updatedAt
   }
 `
@@ -62,6 +69,14 @@ export const POSTS_BY_CATEGORY_QUERY = groq`
 
 export const ALL_CATEGORIES_QUERY = groq`
   *[_type == "category"] | order(title asc){
+    _id,
+    title,
+    "slug": slug.current
+  }
+`
+
+export const CATEGORY_BY_SLUG_QUERY = groq`
+  *[_type == "category" && slug.current == $slug][0]{
     _id,
     title,
     "slug": slug.current

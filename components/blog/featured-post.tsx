@@ -7,7 +7,7 @@ import { CategoryBadgeList } from "./category-badge"
 import { formatDateArabic } from "@/lib/format-date"
 import { WavyDivider } from "@/components/layout/wavy-divider"
 
-export function FeaturedPost({ post }: { post: PostCard }) {
+export function FeaturedPost({ post, showBadge = true }: { post: PostCard; showBadge?: boolean }) {
   const imageUrl = post.featuredImage
     ? urlForImage(post.featuredImage).width(1200).height(800).url()
     : null
@@ -21,9 +21,11 @@ export function FeaturedPost({ post }: { post: PostCard }) {
 
           {/* Content — right column in RTL */}
           <div className="space-y-4">
-            <p className="text-sm font-medium tracking-wide text-muted-foreground">
-              المقال المميز
-            </p>
+            {showBadge && (
+              <p className="text-sm font-medium tracking-wide text-muted-foreground">
+                المقال المميز
+              </p>
+            )}
 
             <h2 className="text-3xl font-extrabold leading-tight md:text-5xl">
               <Link
