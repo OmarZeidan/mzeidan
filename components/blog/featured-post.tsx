@@ -62,7 +62,7 @@ export function FeaturedPost({ post, showBadge = true }: { post: PostCard; showB
             <div className="overflow-hidden rounded-2xl shadow-sm">
               <Image
                 src={imageUrl}
-                alt={post.featuredImage.alt}
+                alt={post.featuredImage.alt ?? ""}
                 width={1200}
                 height={800}
                 priority
