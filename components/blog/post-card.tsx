@@ -23,7 +23,7 @@ export function PostCard({ post }: { post: PostCardType }) {
         <div className="relative aspect-4/3 overflow-hidden rounded-t-4xl">
           <Image
             src={imageUrl}
-            alt={post.featuredImage.alt}
+            alt={post.featuredImage.alt ?? ""}
             fill
             className="object-cover transition-transform duration-500 group-hover/card:scale-[1.03]"
             placeholder="blur"

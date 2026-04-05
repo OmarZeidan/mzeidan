@@ -16,7 +16,7 @@ export function PostListItem({ post }: { post: PostCard }) {
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <CategoryBadgeList categories={post.categories} />
 
-        <h2 className="text-xl font-bold leading-snug tracking-tight text-foreground transition-colors group-hover:text-primary md:text-2xl">
+        <h2 className="text-xl leading-snug font-bold tracking-tight text-foreground transition-colors group-hover:text-primary md:text-2xl">
           <Link
             href={`/blog/${post.slug}`}
             className="after:absolute after:inset-0"
@@ -25,7 +25,7 @@ export function PostListItem({ post }: { post: PostCard }) {
           </Link>
         </h2>
 
-        <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground md:text-base md:line-clamp-3">
+        <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground md:line-clamp-3 md:text-base">
           {post.excerpt}
         </p>
 
@@ -42,7 +42,7 @@ export function PostListItem({ post }: { post: PostCard }) {
         <div className="relative aspect-video w-full overflow-hidden rounded-xl sm:w-48 sm:shrink-0 md:w-56">
           <Image
             src={imageUrl}
-            alt={post.featuredImage.alt}
+            alt={post.featuredImage.alt ?? ""}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
             placeholder="blur"
