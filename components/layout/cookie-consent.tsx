@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { GoogleAnalytics } from "@next/third-parties/google"
 import { Button } from "@/components/ui/button"
-import { ShieldCheckIcon } from "@phosphor-icons/react"
+import { CookieIcon } from "@phosphor-icons/react"
 
 const CONSENT_KEY = "cookie-consent"
 
@@ -43,37 +43,47 @@ export function CookieConsent({ gaId }: { gaId: string }) {
         aria-label="إشعار ملفات تعريف الارتباط"
         aria-live="polite"
         className={[
-          "fixed bottom-4 inset-x-4 z-50 mx-auto max-w-md",
-          "rounded-2xl border border-border bg-background shadow-lg",
-          "p-5 transition-all duration-500 ease-out",
+          "fixed right-6 bottom-6 z-50 w-80",
+          "rounded-2xl border border-border bg-background/95 backdrop-blur-md",
+          "shadow-xl ring-1 ring-black/5 dark:ring-white/10",
+          "transition-all duration-500 ease-out",
           visible
             ? "translate-y-0 opacity-100"
-            : "translate-y-4 opacity-0 pointer-events-none",
+            : "pointer-events-none translate-y-6 opacity-0",
         ].join(" ")}
       >
-        <div className="flex items-start gap-4">
-          <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <ShieldCheckIcon className="size-5" weight="duotone" />
-          </span>
-
-          <div className="flex-1 space-y-1">
-            <p className="text-sm font-semibold text-foreground">
-              نستخدم ملفات تعريف الارتباط
-            </p>
-            <p className="text-xs leading-relaxed text-muted-foreground">
-              نستخدم Google Analytics لفهم كيفية تفاعل الزوار مع الموقع.
-              البيانات مجهولة الهوية ولن تُشارك مع أي طرف ثالث.
-            </p>
-          </div>
+        {/* Header strip */}
+        <div className="flex items-center gap-3 rounded-t-2xl bg-primary/8 px-5 py-4">
+          <CookieIcon
+            className="size-5 shrink-0 text-primary"
+            weight="duotone"
+            aria-hidden="true"
+          />
+          <p className="text-sm font-semibold text-foreground">
+            ملفات تعريف الارتباط
+          </p>
         </div>
 
-        <div className="mt-4 flex items-center justify-end gap-2">
-          <Button variant="outline" size="sm" onClick={decline}>
-            رفض
-          </Button>
-          <Button size="sm" onClick={accept}>
-            قبول
-          </Button>
+        {/* Body */}
+        <div className="px-5 py-4">
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            نستخدم Google Analytics لفهم كيفية تفاعل الزوار مع الموقع. البيانات
+            مجهولة الهوية ولن تُشارك مع أي طرف ثالث.
+          </p>
+
+          <div className="mt-4 flex gap-2">
+            <Button size="sm" className="flex-1" onClick={accept}>
+              قبول
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              className="flex-1"
+              onClick={decline}
+            >
+              رفض
+            </Button>
+          </div>
         </div>
       </div>
     </>
