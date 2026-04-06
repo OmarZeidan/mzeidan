@@ -5,6 +5,7 @@ import { PaperPlaneTiltIcon, SpinnerGapIcon, LockSimpleIcon, CheckCircleIcon, Wa
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { sendContactEmail } from "@/app/actions/contact"
+import { sendGAEvent } from "@next/third-parties/google"
 
 export function ContactForm() {
   const [state, formAction, isPending] = useActionState(sendContactEmail, {
@@ -14,7 +15,10 @@ export function ContactForm() {
   const [showSuccess, setShowSuccess] = useState(false)
 
   useEffect(() => {
-    if (state.success) setShowSuccess(true)
+    if (state.success) {
+      setShowSuccess(true)
+      sendGAEvent("event", "generate_lead", { form_name: "contact" })
+    }
   }, [state.success])
 
   if (showSuccess) {

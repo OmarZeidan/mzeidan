@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/tooltip"
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
 import { useEffect, useState } from "react"
+import { sendGAEvent } from "@next/third-parties/google"
 
 interface ShareButtonsProps {
   title: string
@@ -40,6 +41,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="مشاركة عبر واتساب"
+              onClick={() => sendGAEvent("event", "share", { method: "whatsapp", content_type: "post", item_id: url })}
             >
               <WhatsappLogoIcon weight="regular" />
             </a>
@@ -56,6 +58,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="مشاركة عبر X"
+              onClick={() => sendGAEvent("event", "share", { method: "x", content_type: "post", item_id: url })}
             >
               <XLogoIcon weight="regular" />
             </a>
@@ -70,7 +73,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
             variant="outline"
             size="icon-sm"
             aria-label={copied ? "تم النسخ" : "نسخ الرابط"}
-            onClick={() => copy(url)}
+            onClick={() => { copy(url); sendGAEvent("event", "share", { method: "copy_link", content_type: "post", item_id: url }) }}
           >
             {copied ? (
               <CheckIcon weight="regular" className="text-primary" />
@@ -89,7 +92,7 @@ export function ShareButtons({ title, url }: ShareButtonsProps) {
               variant="outline"
               size="icon-sm"
               aria-label="مشاركة"
-              onClick={() => navigator.share({ title, url }).catch(() => null)}
+              onClick={() => { navigator.share({ title, url }).catch(() => null); sendGAEvent("event", "share", { method: "native", content_type: "post", item_id: url }) }}
             >
               <ShareNetworkIcon weight="regular" />
             </Button>
