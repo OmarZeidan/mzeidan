@@ -8,35 +8,43 @@ import { CookieIcon } from "@phosphor-icons/react"
 const CONSENT_KEY = "cookie-consent"
 
 export function CookieConsent({ gaId }: { gaId: string }) {
-  const [consent, setConsent] = useState<"accepted" | "declined" | null>(null)
+  const [gaEnabled, setGaEnabled] = useState(true)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const stored = localStorage.getItem(CONSENT_KEY)
-    const delay = stored === "accepted" || stored === "declined" ? 0 : 600
-    const t = setTimeout(() => {
-      if (stored === "accepted") setConsent("accepted")
-      else if (stored === "declined") setConsent("declined")
-      else setVisible(true)
-    }, delay)
-    return () => clearTimeout(t)
-  }, [])
+
+    if (stored === "declined") {
+      // Previously declined — disable GA immediately before it fires
+      const t = setTimeout(() => {
+        setGaEnabled(false)
+        ;(window as Record<string, unknown>)[`ga-disable-${gaId}`] = true
+      }, 0)
+      return () => clearTimeout(t)
+    }
+
+    if (!stored) {
+      // No preference yet — show banner
+      const t = setTimeout(() => setVisible(true), 600)
+      return () => clearTimeout(t)
+    }
+  }, [gaId])
 
   function accept() {
     localStorage.setItem(CONSENT_KEY, "accepted")
-    setConsent("accepted")
     setVisible(false)
   }
 
   function decline() {
     localStorage.setItem(CONSENT_KEY, "declined")
-    setConsent("declined")
+    setGaEnabled(false)
+    ;(window as Record<string, unknown>)[`ga-disable-${gaId}`] = true
     setVisible(false)
   }
 
   return (
     <>
-      {consent === "accepted" && <GoogleAnalytics gaId={gaId} />}
+      {gaEnabled && <GoogleAnalytics gaId={gaId} />}
 
       <div
         role="dialog"
@@ -75,12 +83,7 @@ export function CookieConsent({ gaId }: { gaId: string }) {
             <Button size="sm" className="flex-1" onClick={accept}>
               قبول
             </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              className="flex-1"
-              onClick={decline}
-            >
+            <Button size="sm" variant="outline" className="flex-1" onClick={decline}>
               رفض
             </Button>
           </div>
